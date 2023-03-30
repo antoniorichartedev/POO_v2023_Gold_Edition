@@ -7,9 +7,9 @@
 
 // constructor.
 Fecha::Fecha(int d, int m, int a):
-    dia_(d),
-    mes_(m),
-    anno_(a)
+    dia_{d},
+    mes_{m},
+    anno_{a}
 {
     ArreglarFecha(d,m,a);
     ComprobarFecha();
@@ -60,23 +60,27 @@ void Fecha::ComprobarFecha() {
 
 Fecha &Fecha::operator++() {
     *this += 1;
+    ComprobarFecha();
     return *this;
 }
 
 Fecha Fecha::operator++(int) {
     Fecha f = *this;
     *this += 1;
+    ComprobarFecha();
     return f;
 }
 
 Fecha &Fecha::operator--() {
-    *this -= 1;
+    *this += -1;
+    ComprobarFecha();
     return *this;
 }
 
 Fecha Fecha::operator--(int) {
     Fecha f = *this;
-    *this -= 1;
+    *this += -1;
+    ComprobarFecha();
     return f;
 }
 
@@ -91,23 +95,27 @@ Fecha &Fecha::operator+=(int n) {
         mes_ = faux.tm_mon + 1;
         anno_ = faux.tm_year + 1900;
     }
+    ComprobarFecha();
     return *this;
 }
 
 Fecha &Fecha::operator-=(int n) {
     *this += -n;
+    ComprobarFecha();
     return *this;
 }
 
 Fecha Fecha::operator+(int n) const {
     Fecha f = *this;
     f += n;
+    f.ComprobarFecha();
     return f;
 }
 
 Fecha Fecha::operator-(int n) const {
     Fecha f = *this;
     f += -n;
+    f.ComprobarFecha();
     return f;
 }
 
@@ -158,52 +166,51 @@ Fecha::Fecha(const char *f) {
     ComprobarFecha();
 }
 
-const char *Fecha::obtenercadenita() const noexcept {
-    char *cadena = new char[50];
-    char *aux = new char[50];
-    tm* fe = new tm;
+const char *Fecha::obtenercadenita() const {
+    char *res = new char[50], *aux = new char[50];
+    std::tm* fec = new tm;
 
-    memset(fe, 0, sizeof(*fe));
+    memset(fec, 0, sizeof(*fec));
+    fec->tm_mday = dia_;
+    fec->tm_mon = mes_ - 1;
+    fec->tm_year = anno_ - 1900;
 
-    fe->tm_mday = dia_;
-    fe->tm_mon = mes_ - 1;
-    fe->tm_year = anno_ - 1900;
+    mktime(fec);
 
-    mktime(fe);
-
-    switch(fe->tm_mday){
-        case 0: strcpy(cadena, "domingo "); break;
-        case 1: strcpy(cadena, "lunes "); break;
-        case 2: strcpy(cadena, "martes "); break;
-        case 3: strcpy(cadena, "miércoles "); break;
-        case 4: strcpy(cadena, "jueves "); break;
-        case 5: strcpy(cadena, "viernes "); break;
-        case 6: strcpy(cadena, "sábado "); break;
+    switch(fec->tm_wday){
+        case 0: strcpy(res, "domingo "); break;
+        case 1: strcpy(res, "lunes "); break;
+        case 2: strcpy(res, "martes "); break;
+        case 3: strcpy(res, "miércoles "); break;
+        case 4: strcpy(res, "jueves "); break;
+        case 5: strcpy(res, "viernes "); break;
+        case 6: strcpy(res, "sábado "); break;
     }
 
     sprintf(aux, "%d", dia_);
-    strcat(cadena, aux);
-    strcat(cadena, " de ");
+    strcat(res, aux);
+    strcat(res, " de ");
 
-    switch(fe->tm_mon){
-        case 1: strcat(cadena, "enero de "); break;
-        case 2: strcat(cadena, "febrero de "); break;
-        case 3: strcat(cadena, "marzo de "); break;
-        case 4: strcat(cadena, "abril de "); break;
-        case 5: strcat(cadena, "mayo de "); break;
-        case 6: strcat(cadena, "junio de "); break;
-        case 7: strcat(cadena, "julio de "); break;
-        case 8: strcat(cadena, "agosto de "); break;
-        case 9: strcat(cadena, "septiembre de "); break;
-        case 10: strcat(cadena, "octubre de "); break;
-        case 11: strcat(cadena, "noviembre de "); break;
-        case 12: strcat(cadena, "diciembre de "); break;
+    switch(mes_){
+        case 1: strcat(res, "enero de "); break;
+        case 2: strcat(res, "febrero de "); break;
+        case 3: strcat(res, "marzo de "); break;
+        case 4: strcat(res, "abril de "); break;
+        case 5: strcat(res, "mayo de "); break;
+        case 6: strcat(res, "junio de "); break;
+        case 7: strcat(res, "julio de "); break;
+        case 8: strcat(res, "agosto de "); break;
+        case 9: strcat(res, "septiembre de "); break;
+        case 10: strcat(res, "octubre de "); break;
+        case 11: strcat(res, "noviembre de "); break;
+        case 12: strcat(res, "diciembre de "); break;
     }
 
     sprintf(aux, "%d", anno_);
-    strcat(cadena, aux);
+    strcat(res, aux);
 
     delete[] aux;
-    delete fe;
-    return cadena;
+    delete fec;
+
+    return res;
 }

@@ -16,15 +16,15 @@ public:
     Fecha(const char* f);
 
     // funciones observadoras.
-    int dia() const { return dia_; };
-    int mes() const { return mes_; };
-    int anno() const { return anno_; };
+    inline int dia() const noexcept{ return dia_; };
+    inline int mes() const noexcept{ return mes_; };
+    inline int anno() const noexcept{ return anno_; };
 
     // excepciones.
     class Invalida{
     public:
         Invalida(const char* inv): fallo(inv) {}
-        const char* por_que() { return fallo; };
+        const char* por_que() const { return fallo; };
     private:
         const char* fallo;
     };
@@ -42,14 +42,6 @@ public:
     Fecha operator -(int n) const;
     Fecha& operator +=(int n);
     Fecha& operator -=(int n);
-
-    // Operadores para comparar dos fechas.
-    friend bool operator == (const Fecha& f1, const Fecha& f2);
-    friend bool operator != (const Fecha& f1, const Fecha& f2);
-    friend bool operator > (const Fecha& f1, const Fecha& f2);
-    friend bool operator < (const Fecha& f1, const Fecha& f2);
-    friend bool operator >= (const Fecha& f1, const Fecha& f2);
-    friend bool operator <= (const Fecha& f1, const Fecha& f2);
 
     // Esta clase reloj nos sirve para poder dar la fecha del sistema.
     class reloj {
@@ -73,10 +65,16 @@ public:
         }
     };
 
-    operator const char*() { return cadena(); };
-    operator const char*() const{ return cadena(); };
+    //operator const char*() { return obtenercadenita(); };
+    operator const char*() const{ return obtenercadenita(); };
 
-    const char* cadena() const noexcept { return obtenercadenita(); };
+    // Operadores para comparar dos fechas.
+    friend bool operator == (const Fecha& f1, const Fecha& f2);
+    friend bool operator != (const Fecha& f1, const Fecha& f2);
+    friend bool operator > (const Fecha& f1, const Fecha& f2);
+    friend bool operator < (const Fecha& f1, const Fecha& f2);
+    friend bool operator >= (const Fecha& f1, const Fecha& f2);
+    friend bool operator <= (const Fecha& f1, const Fecha& f2);
 
 private:
     int dia_, mes_, anno_;
@@ -92,9 +90,10 @@ private:
     int DiasqueTieneunMes[12] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     // Esta función nos permite hacer la conversión de la fecha en números a una cadena con palabras.
-    const char* obtenercadenita() const noexcept;
+    const char* obtenercadenita() const;
 };
 
+// Operadores para comparar dos fechas.
 
 
 #endif //P0_FECHA_HPP

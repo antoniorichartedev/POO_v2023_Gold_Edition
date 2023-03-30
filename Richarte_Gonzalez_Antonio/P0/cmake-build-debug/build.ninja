@@ -61,6 +61,12 @@ build CMakeFiles/P0.dir/fecha.cpp.obj: CXX_COMPILER__P0_Debug C$:/Users/Anton/PO
   OBJECT_DIR = CMakeFiles\P0.dir
   OBJECT_FILE_DIR = CMakeFiles\P0.dir
 
+build CMakeFiles/P0.dir/cadena.cpp.obj: CXX_COMPILER__P0_Debug C$:/Users/Anton/POO/Richarte_Gonzalez_Antonio/P0/cadena.cpp || cmake_object_order_depends_target_P0
+  DEP_FILE = CMakeFiles\P0.dir\cadena.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\P0.dir
+  OBJECT_FILE_DIR = CMakeFiles\P0.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target P0
@@ -69,7 +75,7 @@ build CMakeFiles/P0.dir/fecha.cpp.obj: CXX_COMPILER__P0_Debug C$:/Users/Anton/PO
 #############################################
 # Link the executable P0.exe
 
-build P0.exe: CXX_EXECUTABLE_LINKER__P0_Debug CMakeFiles/P0.dir/main.cpp.obj CMakeFiles/P0.dir/fecha.cpp.obj
+build P0.exe: CXX_EXECUTABLE_LINKER__P0_Debug CMakeFiles/P0.dir/main.cpp.obj CMakeFiles/P0.dir/fecha.cpp.obj CMakeFiles/P0.dir/cadena.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\P0.dir
